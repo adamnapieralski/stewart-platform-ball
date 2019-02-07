@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/stewart_platform_ball.dir/main.cpp.o  -o stewart_platform_ball 

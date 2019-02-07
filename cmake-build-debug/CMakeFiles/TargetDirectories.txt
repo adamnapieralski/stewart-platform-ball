@@ -1,0 +1,3 @@
+/home/napiad/stewart-platform-ball/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/napiad/stewart-platform-ball/cmake-build-debug/CMakeFiles/opencv_test_1.dir
+/home/napiad/stewart-platform-ball/cmake-build-debug/CMakeFiles/edit_cache.dir
