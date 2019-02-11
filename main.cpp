@@ -10,7 +10,65 @@ using namespace cv;
 using namespace std;
 
 int main() {
-    Mat imgOrg = imread("/home/napiad/stewart-platform-ball/square_ball_2.jpg");
+
+    const string url = "https://192.168.0.103:8080/shot.jpg";
+    namedWindow("win1", WINDOW_NORMAL);
+    resizeWindow("win1", 960, 540);
+
+    Mat frame, frameGray, frameBlur, frameThresh, frameCanny;
+    vector<vector<Point> > contours;
+    vector<Point> approx;
+    vector<Vec4i> hierarchy;
+
+    while(1){
+        VideoCapture cam(url);
+        if (!cam.isOpened()){
+            cout << "Error opening video" << endl;
+            cam.release();
+            return -1;
+        }
+        int frame_width = cam.get(CV_CAP_PROP_FRAME_WIDTH);
+        int frame_height = cam.get(CV_CAP_PROP_FRAME_HEIGHT);
+
+        cam >> frame;
+        if (frame.empty()) {
+            cam.release();
+            break;
+        }
+        cvtColor(frame, frameGray, CV_BGR2GRAY);
+        GaussianBlur(frameGray, frameBlur, Size(3, 3), 0);
+        threshold(frameBlur, frameThresh, 200, 255, THRESH_BINARY);
+        Canny(frameThresh, frameCanny, 100, 200);
+
+        findContours(frameCanny, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+        Mat drawing = Mat::zeros(frameCanny.size(), CV_8UC3);
+        drawContours(drawing, contours, 0, Scalar(0, 255, 0), 1);
+
+        //double epsilon = arcLength(Mat(contours[0]), true) * 0.1;
+        //approxPolyDP(contours[0], approx, epsilon, true);
+        //line(frame, approx.at(0), approx.at(1), Scalar(0, 255, 0), 1);
+        //line(frame, approx.at(1), approx.at(2), Scalar(0, 255, 0), 1);
+        //line(frame, approx.at(2), approx.at(3), Scalar(0, 255, 0), 1);
+        //line(frame, approx.at(3), approx.at(0), Scalar(0, 255, 0), 1);
+
+        imshow("win1", frameThresh);
+
+
+
+
+        char c = (char)waitKey(1);
+        if(c == 27){
+            cam.release();
+            break;
+
+        }
+
+    }
+
+    destroyAllWindows();
+
+
+    /*Mat imgOrg = imread("/home/napiad/stewart-platform-ball/square_ball_2.jpg");
     Mat imgGray, imgBlur, imgThresh, imgCanny;
     vector<vector<Point> > contours;
     vector<Point> approx;
@@ -68,6 +126,6 @@ int main() {
     cout << "x error: " << 200 - circles[0][0] << endl << "x error: " << 200 - circles[0][1] << endl;
     imshow("w1", dst);
 
-    waitKey(0);
+    waitKey(0);*/
     return 0;
 }
