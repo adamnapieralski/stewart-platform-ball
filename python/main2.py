@@ -26,11 +26,6 @@ url = 'http://192.168.0.102:8080/shot.jpg'
 cv2.namedWindow('win1', cv2.WINDOW_AUTOSIZE)
 cv2.namedWindow('win2', cv2.WINDOW_AUTOSIZE)
 
-cv2.createTrackbar('Thresh_type', 'win2', 0, 255, nothing)
-cv2.createTrackbar('Thresh_lower', 'win2', 0, 255, nothing)
-cv2.createTrackbar('Thresh_upper', 'win2', 0, 255, nothing)
-
-
 dictionary = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
 board = cv2.aruco.CharucoBoard_create(5, 5, .025, .0125, dictionary)
 board2 = cv2.aruco.CharucoBoard_create(8, 8, .025, .0175, dictionary)
